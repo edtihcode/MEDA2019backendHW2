@@ -65,6 +65,7 @@ class ElectricCar extends Vehicle{
     this.batterySize=batterySize;
     this.currentCharge=currentCharge;
     this.batteryAge=batteryAge;
+  }
   getBatterySize(){return this.batterySize;}
   setBatterySize(data){this.batterySize = data;}
   getcurrentCharge(){return this.currentCharge;}
@@ -72,29 +73,81 @@ class ElectricCar extends Vehicle{
   getBatteryAge(){return this.batteryAge;}
   setBatteryAge(data){this.batteryAge = data;}
   }
-class Bike extends Vehicle{
-    constructor(model, make, color, year, bikeType,numberOfGears, wheelSize, material){
-      super(model, make, color, year, bikeType,numberOfGears, wheelSize, material);// Must type this to inherits
-      this.bikeType= bikeType;
-      this.numberOfGears=numberOfGears;
-      this.wheelSize=wheelSize;
-      this.material=material;
-      }
-  }
 class Truck extends Vehicle{
-  constructor(model, make, color, year, licensePlate,wheelCount,cylinders,miles,fuelType, tanksize, fuelType, topSpeed){
-    super(model, make, color, year, licensePlate,wheelCount,cylinders,miles,fuelType, tanksize, fuelType, topSpeed);// Must type this to inherits
-    this.trunkSize=trunkSize;
+  constructor( make, model, year, color, tanksize, fuelType, topSpeed, mpg){
+    super(make, model, year, color);// Must type this to inherits
+    this.tankSize=tanksize;
     this.fuelType=fuelType;
     this.topSpeed=topSpeed;
+    this.currentFuelGallons= tanksize;
+    this.MPG= mpg;
   }
-  getTrunkSize(){return this.trunkSize;}
-  setTrunkSize(data){this.trunkSize = data;}
+  getTankSize(){return this.tankSize;}
+  setTankSize(data){this.tankSize = data;}
   getFuelType(){return this.fuelType;}
   setFuelType(data){this.fuelType = data;}
   getTopSpeed(){return this.topSpeed;}
   setTopSpeed(data){this.topSpeed = data;}
+  getCurrentFuelGallons(){return this.currentFuelGallons;}
+  setCurrentFuelGallons(data){this.currentFuelGallons = data;}
+  getMPG(){return this.MPG;}
+
+
+  refuelGallons(gallons){
+    let totalFuel = this.currentFuelGallons+gallons;
+    if (totalFuel < this.tankSize) {
+      console.log(this.make + this.model + " was refueled with  "+ gallons+" gallons");
+
+      this.currentFuelGallons = this.currentFuelGallons + gallons;
+
+      console.log(this.make+" "+this.model+" now has a total of"+ this.currentFuelGallons + " gallons");
+    }else if (totalFuel= this.tankSize) {
+      console.log(this.make+" "+this.model+" is fully filled with fuel!");
+    }else{
+      console.log("There is not enough room in the tank! ");
+      let freeSpace = this.tankSize - this.currentFuelGallons;
+      console.log("You have enough room to add "+freeSpace+" gallons");
+    }
+  }
+  drive(distance, speed){
+    let totalDistance = (this.currentFuelGallons - 5) * this.MPG;
+
+    if (distance <= totalDistance ) {
+      if (speed <= this.topSpeed) {
+        this.currentFuelGallons = this.currentFuelGallons-(distance/this.MPG);
+        console.log("This truck drove for "+distance+"miles.  ");
+        console.log("This truck has "+ this.currentFuelGallons+ " gallons left.");
+        this.scenario();
+      }else {
+        console.log("This truck cannot go that fast. The top speed for this truck is "+ this.topSpeed);
+      }
+    }else {
+      console.log("This truck cannot go that far in one sitting. It can currently got a total of "+ totalDistance + " miles before refueling.");
+    }
+  }
+
+  scenario(){
+    let number = Math.random();
+
+    let incidents = [
+      "Your engine blew out.",
+      "Your tire blew out.",
+      "A cayote crosses your path.",
+      "You get a DUI",
+      "A snowstorm approaches.",
+      "You crashed into a light pole."
+    ];
+
+    if (number > .2) {
+      console.log("Congratulations, nothing happened.");
+
+    }else {
+      let incidentNumber = Math.floor(Math.random()*6);
+      console.log(incidents[incidentNumber]);
+    }
+  }
 }
+
 class Motocycle extends Vehicle{
   constructor(model, make, color, year, licensePlate,wheelCount,cylinders,miles,fuelType, engineCC, tireSize, tankSize){
     super(model, make, color, year, licensePlate,wheelCount,cylinders,miles,fuelType, engineCC, tireSize, tankSize);// Must type this to inherits
@@ -134,7 +187,7 @@ class Helicopter extends Vehicle{
       this.maxSpeed=maxSpeed;
       this.power=power;
       }
-      
+
   }
 
 
@@ -149,6 +202,16 @@ let legitCar2 = new Car("Elio", "One","Red",2019,"3S0DJAS",3,2,1000,"gasoline");
 let bike1 = new Bike("Specialized", "Model1","Silver",2020,"Mountain",12,"18\"","Aluminium");
 let heli1 = new Helicopter("Apache", "AH1", "grey", 2004, "military", "21000lb","331miles", "182mph", "2270hp");
 
+let semiTruck = new Truck("Kenworth","T500",2019, "black", 100,"diesel",75,10);
+semiTruck.showMake();
+semiTruck.showYear();
+console.log(semiTruck.getTankSize());
+semiTruck.refuelGallons(10);
+console.log(semiTruck.getTankSize());
+console.log(semiTruck.getCurrentFuelGallons());
+console.log(semiTruck.getMPG());
+console.log(semiTruck.getTopSpeed());
+semiTruck.drive(200,40);
 // car1.showYear();
 // car1.showMake();
 // car5.showModel();
