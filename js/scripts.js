@@ -114,10 +114,17 @@ class Truck extends Vehicle{
 
     if (distance <= totalDistance ) {
       if (speed <= this.topSpeed) {
-        this.currentFuelGallons = this.currentFuelGallons-(distance/this.MPG);
-        console.log("This truck drove for "+distance+"miles.  ");
-        console.log("This truck has "+ this.currentFuelGallons+ " gallons left.");
-        this.scenario();
+        let error = this.scenario();
+        console.log(error);
+        if (error == 0) {
+          this.currentFuelGallons = this.currentFuelGallons-(distance/this.MPG);
+          console.log("This truck drove for "+distance+"miles.  ");
+          console.log("This truck has "+ this.currentFuelGallons+ " gallons left.");
+          console.log("Congratulations, nothing happened and your arrived safely to your destination.");
+        }else{
+          console.log("Failed to arrive at your destination.");
+        }
+
       }else {
         console.log("This truck cannot go that fast. The top speed for this truck is "+ this.topSpeed);
       }
@@ -140,10 +147,11 @@ class Truck extends Vehicle{
 
     if (number > .2) {
       console.log("Congratulations, nothing happened.");
-
+      return 0;
     }else {
       let incidentNumber = Math.floor(Math.random()*6);
       console.log(incidents[incidentNumber]);
+      return 1;
     }
   }
 }
