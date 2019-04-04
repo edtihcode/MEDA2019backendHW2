@@ -111,10 +111,14 @@ class Truck extends Vehicle{
   }
   drive(distance, speed){
     let totalDistance = (this.currentFuelGallons - 5) * this.MPG;
-
+    let distanceTravelled = 0;
     if (distance <= totalDistance ) {
       if (speed <= this.topSpeed) {
-        let error = this.scenario();
+        let error = 0;
+        while (distanceTravelled <= distance) {
+          distanceTravelled ++;
+          error = this.scenario();
+        }
         console.log(error);
         if (error == 0) {
           this.currentFuelGallons = this.currentFuelGallons-(distance/this.MPG);
@@ -122,7 +126,7 @@ class Truck extends Vehicle{
           console.log("This truck has "+ this.currentFuelGallons+ " gallons left.");
           console.log("Congratulations, nothing happened and your arrived safely to your destination.");
         }else{
-          console.log("Failed to arrive at your destination.");
+          console.log("Failed to arrive at your destination."+distanceTravelled);
         }
 
       }else {
@@ -145,7 +149,7 @@ class Truck extends Vehicle{
       "You crashed into a light pole."
     ];
 
-    if (number > .2) {
+    if (number < .09999394) {
       console.log("Congratulations, nothing happened.");
       return 0;
     }else {
