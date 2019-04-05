@@ -118,6 +118,7 @@ class Truck extends Vehicle{
         while (distanceTravelled <= distance) {
           distanceTravelled ++;
           error = this.scenario();
+
         }
         console.log(error);
         if (error == 0) {
@@ -215,6 +216,7 @@ let bike1 = new Bike("Specialized", "Model1","Silver",2020,"Mountain",12,"18\"",
 let heli1 = new Helicopter("Apache", "AH1", "grey", 2004, "military", "21000lb","331miles", "182mph", "2270hp");
 
 let semiTruck = new Truck("Kenworth","T500",2019, "black", 100,"diesel",75,10);
+
 semiTruck.showMake();
 semiTruck.showYear();
 console.log(semiTruck.getTankSize());
